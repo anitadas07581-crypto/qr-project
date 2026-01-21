@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>School Project Demo</title>
+</head>
+<body style="text-align:center; font-family:Arial">
+
+<h2>QR Project – Camera & Location</h2>
+
+<button onclick="getLocation()">Get Location</button>
+<p id="location"></p>
+
+<br><br>
+
+<button onclick="openCamera()">Open Camera</button>
+<br><br>
+<video id="video" width="250" autoplay></video>
+<br>
+<button onclick="takePhoto()">Take Photo</button>
+<br><br>
+<canvas id="canvas" width="250"></canvas>
+
+<script>
+function getLocation() {
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      document.getElementById("location").innerText =
+        "Latitude: " + pos.coords.latitude +
+        ", Longitude: " + pos.coords.longitude;
+    },
+    () => alert("Location permission denied")
+  );
+}
+
+function openCamera() {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      document.getElementById("video").srcObject = stream;
+    })
+    .catch(() => alert("Camera permission denied"));
+}
+
+function takePhoto() {
+  const canvas = document.getElementById("canvas");
+  const video = document.getElementById("video");
+  canvas.getContext("2d").drawImage(video, 0, 0, 250, 180);
+}
+</script>
+
+</body>
+</html>
